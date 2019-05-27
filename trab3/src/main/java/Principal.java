@@ -34,8 +34,8 @@ public class Principal {
 	ProdutoAppService produtoAppService = 
 		FabricaDeServico.getServico(ProdutoAppService.class);
 
-	// System.out.println("\nCriou o proxy. Classe de implementação = " +
-	// produtoAppService.getClass().getName());
+	System.out.println("\nCriou o proxy. Classe de implementação = " +
+	produtoAppService.getClass().getName());
 
 	boolean continua = true;
 	while (continua) {

@@ -10,14 +10,16 @@ import excecao.InfraestruturaException;
 import excecao.ObjetoNaoEncontradoException;
 import modelo.Produto;
 import servico.controle.JPAUtil;
+import anotacao.PersistenceContext;
 
 public class ProdutoDAOImpl implements ProdutoDAO {
     
-    protected EntityManager em;
+	@PersistenceContext()
+	public EntityManager em;
     
     public long inclui(Produto umProduto) {
 	try {
-	    em = JPAUtil.getEntityManager();
+	    ////em = JPAUtil.getEntityManager();
 
 	    em.persist(umProduto);
 
@@ -30,7 +32,7 @@ public class ProdutoDAOImpl implements ProdutoDAO {
 
     public void altera(Produto umProduto) throws ObjetoNaoEncontradoException {
 	try {
-	    em = JPAUtil.getEntityManager();
+	    ////em = JPAUtil.getEntityManager();
 
 	    Produto produto = em.find(Produto.class, umProduto.getId(), LockModeType.PESSIMISTIC_WRITE);
 
@@ -47,7 +49,7 @@ public class ProdutoDAOImpl implements ProdutoDAO {
 
     public void exclui(long id) throws ObjetoNaoEncontradoException {
 	try {
-	    em = JPAUtil.getEntityManager();
+	    //em = JPAUtil.getEntityManager();
 
 	    Produto produto = em.find(Produto.class, id, LockModeType.PESSIMISTIC_WRITE);
 
@@ -64,7 +66,7 @@ public class ProdutoDAOImpl implements ProdutoDAO {
 
     public Produto recuperaUmProduto(long id) throws ObjetoNaoEncontradoException {
 	try {
-	    em = JPAUtil.getEntityManager();
+	    //em = JPAUtil.getEntityManager();
 
 	    Produto umProduto = (Produto) em.find(Produto.class, new Long(id));
 
@@ -81,7 +83,7 @@ public class ProdutoDAOImpl implements ProdutoDAO {
 
     public Produto recuperaUmProdutoComLock(long id) throws ObjetoNaoEncontradoException {
 	try {
-	    em = JPAUtil.getEntityManager();
+	    //em = JPAUtil.getEntityManager();
 
 	    Produto umProduto = em.find(Produto.class, id, LockModeType.PESSIMISTIC_WRITE);
 
@@ -99,7 +101,7 @@ public class ProdutoDAOImpl implements ProdutoDAO {
     @SuppressWarnings("unchecked")
     public List<Produto> recuperaProdutos() {
 	try {
-	    em = JPAUtil.getEntityManager();
+	    //em = JPAUtil.getEntityManager();
 
 	    List<Produto> produtos = em.createQuery("select p from Produto p order by p.id asc").getResultList();
 

@@ -2,9 +2,12 @@ package servico.impl;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import anotacao.Autowired;
 import anotacao.Transactional;
 import dao.ProdutoDAO;
+import dao.impl.ProdutoDAOImpl;
 import excecao.ObjetoNaoEncontradoException;
 import excecao.ProdutoNaoEncontradoException;
 import modelo.Produto;
@@ -13,7 +16,7 @@ import servico.ProdutoAppService;
 public class ProdutoAppServiceImpl implements ProdutoAppService {
     
     @Autowired
-    private ProdutoDAO produtoDAO; // = FabricaDeDAOs.getDAO(ProdutoDAO.class);
+	public ProdutoDAO produtoDAO; // = FabricaDeDAOs.getDAO(ProdutoDAO.class);
 
     @Transactional
     public long inclui(Produto umProduto) {

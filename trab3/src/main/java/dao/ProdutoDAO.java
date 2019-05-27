@@ -2,10 +2,13 @@ package dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import excecao.ObjetoNaoEncontradoException;
 import modelo.Produto;
 
 public interface ProdutoDAO {
+	
     long inclui(Produto umProduto);
 
     void altera(Produto umProduto) throws ObjetoNaoEncontradoException;

@@ -1,10 +1,15 @@
 package servico.controle;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
+import javax.persistence.EntityManager;
 
 import anotacao.Transactional;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
+import servico.impl.ProdutoAppServiceImpl;
+import dao.impl.ProdutoDAOImpl;
 
 public class InterceptadorDeServico implements MethodInterceptor {
     /*
@@ -30,6 +35,7 @@ public class InterceptadorDeServico implements MethodInterceptor {
 
     public Object intercept(Object objeto, Method metodo, Object[] args, MethodProxy metodoDoProxy) throws Throwable {
 	try {
+		((ProdutoDAOImpl)((ProdutoAppServiceImpl) objeto).produtoDAO).em = JPAUtil.getEntityManager();
 	    if (metodo.isAnnotationPresent(Transactional.class)) {
 		JPAUtil.beginTransaction();
 	    }
