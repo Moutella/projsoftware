@@ -3,7 +3,7 @@ package servico;
 import java.util.List;
 
 import dao.ModelosCarroDAO;
-import excecao.InfraestruturaException;
+import excecao.ModeloCarroNaoEncontradoException;
 import excecao.ObjetoNaoEncontradoException;
 import modelo.ModelosCarro;
 
@@ -18,53 +18,49 @@ public class ModelosCarroAppService {
 
 	@Transactional
 	public long inclui(ModelosCarro umModelosCarro) {
-		try{
+		
 
 			long numero = modelosCarroDAO.inclui(umModelosCarro);
 
 			return numero;
-		}catch (Exception e) {
-		    throw e;
-		}
+		
 	}
 
 	@Transactional
-	public void altera(ModelosCarro umModelosCarro) throws ObjetoNaoEncontradoException{
+	public void altera(ModelosCarro umModelosCarro) throws ModeloCarroNaoEncontradoException{
 		try {
 
 			modelosCarroDAO.altera(umModelosCarro);
 
-		}catch (Exception e) {
-		    throw e;
+		}catch (ObjetoNaoEncontradoException e) {
+		    throw new ModeloCarroNaoEncontradoException("Modelo nao encontrado");
 		}
 	}
-	public List<ModelosCarro> recuperaModelosCarros() {
-		try {
+	public List<ModelosCarro> recuperaModelosCarros() throws ModeloCarroNaoEncontradoException {
+		
 		    return modelosCarroDAO.recuperaModelosCarros();
-		}catch (Exception e) {
-		    throw e;
-		}
+		
 	    }
 
 	@Transactional
-    public void exclui(long numero) throws ObjetoNaoEncontradoException {
+    public void exclui(long numero) throws ModeloCarroNaoEncontradoException {
 	try {
 	    
 
 	    modelosCarroDAO.exclui(numero);
 
 	    
-	} catch (Exception e) {
-	    throw e;
+	} catch (ObjetoNaoEncontradoException e) {
+	    throw new ModeloCarroNaoEncontradoException("Modelo nao encontrado");
 	}    
 }
-    public ModelosCarro recuperaUmModelosCarro(long numero) throws ObjetoNaoEncontradoException{
+    public ModelosCarro recuperaUmModelosCarro(long numero) throws ModeloCarroNaoEncontradoException{
     	try {
     	   	ModelosCarro umModelosCarro = modelosCarroDAO.recuperaUmModelosCarro(numero);
     	    return umModelosCarro;
     	} 
-    	catch (Exception e) {
-		    throw e;
+    	catch (ObjetoNaoEncontradoException e) {
+		    throw new ModeloCarroNaoEncontradoException("Modelo nao encontrado");
 		}
     }
     public List<ModelosCarro> recuperaModelosCarrosECarros() {

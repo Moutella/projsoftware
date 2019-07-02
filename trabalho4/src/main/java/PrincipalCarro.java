@@ -4,7 +4,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import corejava.Console;
+import excecao.ModeloCarroNaoEncontradoException;
 import excecao.ObjetoNaoEncontradoException;
+import excecao.UsuarioNaoEncontradoException;
 import modelo.Carro;
 import modelo.ModelosCarro;
 import modelo.Usuario;
@@ -46,13 +48,13 @@ public class PrincipalCarro {
 		    	long userId = Console.readInt("\nDigite o id do usuario");
 		    	try {
 		    		umUsuario = usuarioAppService.recuperaUmUsuario(userId);
-		    	} catch(ObjetoNaoEncontradoException e) {
+		    	} catch(UsuarioNaoEncontradoException e) {
 				    System.out.println('\n' + e.getMessage());
 		    		break;
 		    	}
 		    	try {
 		    		umModelo = modeloAppService.recuperaUmModelosCarro(modeloId);
-		    	} catch(ObjetoNaoEncontradoException e) {
+		    	} catch(ModeloCarroNaoEncontradoException e) {
 				    System.out.println('\n' + e.getMessage());
 		    		break;
 		    	}

@@ -3,8 +3,9 @@ package servico;
 import java.util.List;
 
 import dao.UsuarioDAO;
-import excecao.InfraestruturaException;
+
 import excecao.ObjetoNaoEncontradoException;
+import excecao.UsuarioNaoEncontradoException;
 import modelo.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,26 +19,19 @@ public class UsuarioAppService {
 
 	@Transactional
 	public long inclui(Usuario umUsuario) {
-		try{
-
-			long numero = usuarioDAO.inclui(umUsuario);
-
-			return numero;
-		}catch (Exception e) {
-		    throw e;
-		}
-		
+		long numero = usuarioDAO.inclui(umUsuario);
+		return numero;
 	}
 	
 
 	@Transactional
-	public void altera(Usuario umUsuario) throws ObjetoNaoEncontradoException{
+	public void altera(Usuario umUsuario) throws UsuarioNaoEncontradoException{
 		try {
 			
 			usuarioDAO.altera(umUsuario);
 			
-		}catch (Exception e) {
-		    throw e;
+		}catch (ObjetoNaoEncontradoException e) {
+		    throw new UsuarioNaoEncontradoException("Usuario nao encontrado");
 		}
 	}
 	
@@ -48,29 +42,29 @@ public class UsuarioAppService {
 	    }
 
 	@Transactional
-    public void exclui(long numero) throws ObjetoNaoEncontradoException {
+    public void exclui(long numero) throws UsuarioNaoEncontradoException {
 	try {
 	    usuarioDAO.exclui(numero);
 
-	} catch (Exception e) {
-	    	throw e;
+	} catch (ObjetoNaoEncontradoException e) {
+	    	throw new UsuarioNaoEncontradoException("Usuario nao encontrado");
 		}
     }
-    public Usuario recuperaUmUsuario(long numero) throws ObjetoNaoEncontradoException {
+    public Usuario recuperaUmUsuario(long numero) throws UsuarioNaoEncontradoException {
     	try {
     	   	Usuario umUsuario = usuarioDAO.recuperaUmUsuario(numero);
     	    return umUsuario;
-    	}   catch (Exception e) {
-	    	throw e;
+    	}   catch (ObjetoNaoEncontradoException e) {
+	    	throw new UsuarioNaoEncontradoException("Usuario nao encontrado");
 		} 
     }
-    public Usuario recuperaUmUsuarioECarros(long id) throws ObjetoNaoEncontradoException {
+    public Usuario recuperaUmUsuarioECarros(long id) throws UsuarioNaoEncontradoException {
     	try {
     		Usuario umUsuario = usuarioDAO.recuperaUmUsuarioECarros(id);
     		
     		return umUsuario;
-    	}catch (Exception e) {
-	    	throw e;
+    	}catch (ObjetoNaoEncontradoException e) {
+	    	throw new UsuarioNaoEncontradoException("Usuario nao encontrado");
 		}
     }
     public List<Usuario> recuperaUsuariosECarros(){

@@ -3,7 +3,7 @@ package servico;
 import java.util.List;
 
 import dao.CarroDAO;
-import excecao.InfraestruturaException;
+import excecao.CarroNaoEncontradoException;
 import excecao.ObjetoNaoEncontradoException;
 import modelo.Carro;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,29 +16,26 @@ public class CarroAppService {
 	private CarroDAO carroDAO;
 	@Transactional
 	public long inclui(Carro umCarro) {
-		try {
+
 			
 			long numero = carroDAO.inclui(umCarro);
 			
 			return numero;
-		}
-		catch (Exception e) {
-		    throw e;
-		}
+		
 	}
 	@Transactional
-	public void altera(Carro umCarro) throws Exception {
+	public void altera(Carro umCarro) throws CarroNaoEncontradoException {
 		try {
 		
 			carroDAO.altera(umCarro);
 		
 		}
-		catch (Exception e) {
-		    throw e;
+		catch (ObjetoNaoEncontradoException e) {
+		    throw new CarroNaoEncontradoException("Carro nao encontrado");
 		}
 	}
 	@Transactional
-	public void exclui(long numero) throws ObjetoNaoEncontradoException{
+	public void exclui(long numero) throws CarroNaoEncontradoException{
 		try {
 		 
 
@@ -46,32 +43,30 @@ public class CarroAppService {
 
 		 
 		    
-		} catch (Exception e) {
-		    throw e;
+		} catch (ObjetoNaoEncontradoException e) {
+		    throw new CarroNaoEncontradoException("Carro nao encontrado");
 		}
 	}
-	public Carro recuperaUmCarro(long numero) throws ObjetoNaoEncontradoException{
+	public Carro recuperaUmCarro(long numero) throws CarroNaoEncontradoException{
 		try {
 			Carro umCarro = carroDAO.recuperaUmCarro(numero);
 			return umCarro;
-		} catch (Exception e) {
-		    throw e;
+		} catch (ObjetoNaoEncontradoException e) {
+		    throw new CarroNaoEncontradoException("Carro nao encontrado");
 		}
 	}
-	public Carro recuperaUmCarroEUsuarioEModelo(long id) throws ObjetoNaoEncontradoException {
+	public Carro recuperaUmCarroEUsuarioEModelo(long id) throws CarroNaoEncontradoException {
 		try {
 			return carroDAO.recuperaUmCarroEUsuarioEModelo(id);
-		} catch (Exception e) {
-		    throw e;
+		} catch (ObjetoNaoEncontradoException e) {
+		    throw new CarroNaoEncontradoException("Carro nao encontrado");
 		}
 		
 	}
 	public List<Carro> recuperaCarrosUsuariosModelos() {
-		try {
+		
 			return carroDAO.recuperaCarrosUsuariosModelos();
-		} catch (Exception e) {
-		    throw e;
-		}
+		
 	}
 
 }

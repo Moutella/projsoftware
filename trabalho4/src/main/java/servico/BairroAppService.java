@@ -3,7 +3,7 @@ package servico;
 import java.util.List;
 
 import dao.BairroDAO;
-import excecao.InfraestruturaException;
+import excecao.BairroNaoEncontradoException;
 import excecao.ObjetoNaoEncontradoException;
 import modelo.Bairro;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,26 +16,21 @@ public class BairroAppService {
 	private BairroDAO bairroDAO;
 
     @Transactional
-	public long inclui(Bairro umBairro) throws ObjetoNaoEncontradoException {
-		try{
-			long numero = bairroDAO.inclui(umBairro);
-			return numero;
-		}
-		catch (Exception e) {
-		    throw e;
-		}
+	public long inclui(Bairro umBairro) {
+		long numero = bairroDAO.inclui(umBairro);
+		return numero;
+		
 	}
 
     @Transactional
-	public void altera(Bairro umBairro) throws ObjetoNaoEncontradoException{
+	public void altera(Bairro umBairro) throws BairroNaoEncontradoException {
 		try {
 			
 			bairroDAO.altera(umBairro);
 			
-		}catch(Exception e) {
-			
-			throw e;
-			}
+		}catch(ObjetoNaoEncontradoException e) {
+		    throw new BairroNaoEncontradoException("Bairro nao encontrado");
+		}
 	}
 	
 	public List<Bairro> recuperaBairros() {
@@ -45,27 +40,26 @@ public class BairroAppService {
 	    }
 
     @Transactional
-    public void exclui(long numero) throws ObjetoNaoEncontradoException {
+    public void exclui(long numero) throws BairroNaoEncontradoException {
 	try {
 	    
 	    bairroDAO.exclui(numero);
 
 	    
 	}
-	catch(Exception e) {
-	    throw e;
+	catch(ObjetoNaoEncontradoException e) {
+	    throw new BairroNaoEncontradoException("Bairro nao encontrado");
 	}
 	
     }
-    public Bairro recuperaUmBairro(long numero) throws ObjetoNaoEncontradoException {
+    public Bairro recuperaUmBairro(long numero) throws BairroNaoEncontradoException {
     	try {
     	   	Bairro umBairro = bairroDAO.recuperaUmBairro(numero);
 
     	    return umBairro;
-    	} catch(Exception e) {
-			
-			throw e;
-			}
+    	} catch(ObjetoNaoEncontradoException e) {
+    	    throw new BairroNaoEncontradoException("Bairro nao encontrado");
+    	}
         }
     public List<Bairro> recuperaBairrosEmoradores() {
     	try {
