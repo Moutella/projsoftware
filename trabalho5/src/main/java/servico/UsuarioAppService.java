@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import anotacao.Perfil;
+
 @Service
 public class UsuarioAppService {
 	@Autowired
@@ -18,6 +20,7 @@ public class UsuarioAppService {
 	
 
 	@Transactional
+	@Perfil(nomes={"admin", "user"})
 	public long inclui(Usuario umUsuario) {
 		long numero = usuarioDAO.inclui(umUsuario);
 		return numero;
@@ -25,6 +28,7 @@ public class UsuarioAppService {
 	
 
 	@Transactional
+	@Perfil(nomes={"admin", "user"})
 	public void altera(Usuario umUsuario) throws UsuarioNaoEncontradoException{
 		try {
 			
@@ -34,7 +38,7 @@ public class UsuarioAppService {
 		    throw new UsuarioNaoEncontradoException("Usuario nao encontrado");
 		}
 	}
-	
+	@Perfil(nomes={"admin", "user"})
 	public List<Usuario> recuperaUsuarios() {
 		System.out.println("ué");
 		return usuarioDAO.recuperaUsuarios();
@@ -42,6 +46,7 @@ public class UsuarioAppService {
 	    }
 
 	@Transactional
+	@Perfil(nomes={"admin", "user"})
     public void exclui(long numero) throws UsuarioNaoEncontradoException {
 	try {
 	    usuarioDAO.exclui(numero);
@@ -50,6 +55,7 @@ public class UsuarioAppService {
 	    	throw new UsuarioNaoEncontradoException("Usuario nao encontrado");
 		}
     }
+	@Perfil(nomes={"admin", "user"})
     public Usuario recuperaUmUsuario(long numero) throws UsuarioNaoEncontradoException {
     	try {
     	   	Usuario umUsuario = usuarioDAO.recuperaUmUsuario(numero);
@@ -58,6 +64,7 @@ public class UsuarioAppService {
 	    	throw new UsuarioNaoEncontradoException("Usuario nao encontrado");
 		} 
     }
+	@Perfil(nomes={"admin", "user"})
     public Usuario recuperaUmUsuarioECarros(long id) throws UsuarioNaoEncontradoException {
     	try {
     		Usuario umUsuario = usuarioDAO.recuperaUmUsuarioECarros(id);
@@ -67,6 +74,7 @@ public class UsuarioAppService {
 	    	throw new UsuarioNaoEncontradoException("Usuario nao encontrado");
 		}
     }
+	@Perfil(nomes={"admin", "user"})
     public List<Usuario> recuperaUsuariosECarros(){
 	    return usuarioDAO.recuperaUsuariosECarros();
     	

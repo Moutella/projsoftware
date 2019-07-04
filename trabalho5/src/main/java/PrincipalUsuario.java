@@ -6,8 +6,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import modelo.Bairro;
 import modelo.Carro;
 import modelo.Usuario;
+import perfis.SingletonPerfis;
 import servico.BairroAppService;
 import servico.UsuarioAppService;
+import servico.UsuariosAppService;
 import util.Util;
 
 public class PrincipalUsuario {
@@ -24,6 +26,17 @@ public class PrincipalUsuario {
 
 		UsuarioAppService usuarioAppService = (UsuarioAppService)fabrica.getBean ("usuarioAppService");
 		BairroAppService bairroAppService = (BairroAppService)fabrica.getBean ("bairroAppService");
+		SingletonPerfis singletonPerfis = SingletonPerfis.getSingletonPerfis();
+		UsuariosAppService perfilApp = (UsuariosAppService)fabrica.getBean("usuariosAppService");
+		String conta = Console.readLine("\n Digite seu usuário:\n");
+		String senha = Console.readLine("\n Digite sua senha:\n");
+		List<String> perfisList = perfilApp.recuperaPerfis(conta, senha);
+		String[] perfis = new String[perfisList.size()];
+		for(int i = 0; i < perfisList.size(); i++) {
+			perfis[i] = perfisList.get(i);
+		}
+		
+		singletonPerfis.setPerfis(perfis);
 		boolean continua = true;
 		while (continua) {
 			System.out.println('\n' + "O que você deseja fazer?");

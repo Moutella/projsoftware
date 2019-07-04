@@ -4,13 +4,14 @@ import java.util.List;
 
 import excecao.ObjetoNaoEncontradoException;
 import modelo.ModelosCarro;
+import anotacao.RecuperaConjunto;
+import anotacao.RecuperaLista;
+import anotacao.RecuperaObjeto;
+import anotacao.RecuperaUltimoOuPrimeiro;
 
-public interface ModelosCarroDAO {
-	long inclui(ModelosCarro umModelosCarro);
-    void altera(ModelosCarro umModelosCarro) throws ObjetoNaoEncontradoException;
-    void exclui(long id) throws ObjetoNaoEncontradoException;
-    
-    ModelosCarro recuperaUmModelosCarro(long id) throws ObjetoNaoEncontradoException;
+public interface ModelosCarroDAO extends DaoGenerico<ModelosCarro, Long> {
+	@RecuperaLista
     List<ModelosCarro> recuperaModelosCarros();
+	@RecuperaLista
     List<ModelosCarro> recuperaModelosCarrosECarros();
 }

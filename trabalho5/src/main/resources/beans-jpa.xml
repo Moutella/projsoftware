@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?> 
-<beans xmlns="http://www.springframework.org/schema/beans" 
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-       xmlns:context="http://www.springframework.org/schema/context" 
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
              http://www.springframework.org/schema/beans/spring-beans.xsd 
              http://www.springframework.org/schema/context 
              http://www.springframework.org/schema/context/spring-context.xsd 
@@ -17,9 +17,9 @@
 	<bean id="modelosCarroAppService" class="servico.ModelosCarroAppService" />
 	<bean id="bairroAppService" class="servico.BairroAppService" />
 	<bean id="carroAppService" class="servico.CarroAppService" />
+	<bean id="usuariosAppService" class="servico.UsuariosAppService" />
              
     <context:component-scan base-package="dao.impl" />
-
 <!--  
     Acrescentando  o  elemento  abaixo  será  registrado  automaticamente  um bean  do tipo 
     PersistenceAnnotationBeanPostProcessor   que  ficará   responsável   por   injetar   um 
@@ -38,6 +38,7 @@
         class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
+
 
 <!-- 
     Spring  provê  um  fábrica denominada  LocalContainerEntityManagerFactoryBean, para que 

@@ -11,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import anotacao.Perfil;
+
 @Service
 public class ModelosCarroAppService {
 	@Autowired
 	private ModelosCarroDAO modelosCarroDAO;
 
 	@Transactional
+	@Perfil(nomes={"admin", "user"})
 	public long inclui(ModelosCarro umModelosCarro) {
 		
 
@@ -27,6 +30,7 @@ public class ModelosCarroAppService {
 	}
 
 	@Transactional
+	@Perfil(nomes={"admin", "user"})
 	public void altera(ModelosCarro umModelosCarro) throws ModeloCarroNaoEncontradoException{
 		try {
 
@@ -36,6 +40,7 @@ public class ModelosCarroAppService {
 		    throw new ModeloCarroNaoEncontradoException("Modelo nao encontrado");
 		}
 	}
+	@Perfil(nomes={"admin", "user"})
 	public List<ModelosCarro> recuperaModelosCarros() throws ModeloCarroNaoEncontradoException {
 		
 		    return modelosCarroDAO.recuperaModelosCarros();
@@ -43,6 +48,7 @@ public class ModelosCarroAppService {
 	    }
 
 	@Transactional
+	@Perfil(nomes={"admin", "user"})
     public void exclui(long numero) throws ModeloCarroNaoEncontradoException {
 	try {
 	    
@@ -54,6 +60,7 @@ public class ModelosCarroAppService {
 	    throw new ModeloCarroNaoEncontradoException("Modelo nao encontrado");
 	}    
 }
+	@Perfil(nomes={"admin", "user"})
     public ModelosCarro recuperaUmModelosCarro(long numero) throws ModeloCarroNaoEncontradoException{
     	try {
     	   	ModelosCarro umModelosCarro = modelosCarroDAO.recuperaUmModelosCarro(numero);
@@ -63,6 +70,7 @@ public class ModelosCarroAppService {
 		    throw new ModeloCarroNaoEncontradoException("Modelo nao encontrado");
 		}
     }
+	@Perfil(nomes={"admin", "user"})
     public List<ModelosCarro> recuperaModelosCarrosECarros() {
 	    return modelosCarroDAO.recuperaModelosCarrosECarros();
     }

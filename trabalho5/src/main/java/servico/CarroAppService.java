@@ -10,11 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import anotacao.Perfil;
+
 @Service
 public class CarroAppService {
 	@Autowired
 	private CarroDAO carroDAO;
 	@Transactional
+	@Perfil(nomes={"admin", "user"})
 	public long inclui(Carro umCarro) {
 
 			
@@ -24,6 +27,7 @@ public class CarroAppService {
 		
 	}
 	@Transactional
+	@Perfil(nomes={"admin", "user"})
 	public void altera(Carro umCarro) throws CarroNaoEncontradoException {
 		try {
 		
@@ -35,6 +39,7 @@ public class CarroAppService {
 		}
 	}
 	@Transactional
+	@Perfil(nomes={"admin", "user"})
 	public void exclui(long numero) throws CarroNaoEncontradoException{
 		try {
 		 
@@ -47,6 +52,7 @@ public class CarroAppService {
 		    throw new CarroNaoEncontradoException("Carro nao encontrado");
 		}
 	}
+	@Perfil(nomes={"admin", "user"})
 	public Carro recuperaUmCarro(long numero) throws CarroNaoEncontradoException{
 		try {
 			Carro umCarro = carroDAO.recuperaUmCarro(numero);
@@ -55,6 +61,7 @@ public class CarroAppService {
 		    throw new CarroNaoEncontradoException("Carro nao encontrado");
 		}
 	}
+	@Perfil(nomes={"admin", "user"})
 	public Carro recuperaUmCarroEUsuarioEModelo(long id) throws CarroNaoEncontradoException {
 		try {
 			return carroDAO.recuperaUmCarroEUsuarioEModelo(id);
@@ -63,6 +70,7 @@ public class CarroAppService {
 		}
 		
 	}
+	@Perfil(nomes={"admin", "user"})
 	public List<Carro> recuperaCarrosUsuariosModelos() {
 		
 			return carroDAO.recuperaCarrosUsuariosModelos();

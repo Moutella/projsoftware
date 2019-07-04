@@ -1,4 +1,3 @@
-
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -7,19 +6,35 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import corejava.Console;
 import modelo.Bairro;
 import modelo.Usuario;
+import perfis.SingletonPerfis;
 import servico.BairroAppService;
-
+import servico.UsuariosAppService;
 public class PrincipalBairro {
 	public static void main(String[] args) {
 		String nome;
 		
 		Bairro umBairro;
 		
+
+		
+		@SuppressWarnings("resource")
+		SingletonPerfis singletonPerfis = SingletonPerfis.getSingletonPerfis();
+
 		@SuppressWarnings("resource")
 		ApplicationContext fabrica = new ClassPathXmlApplicationContext("beans-jpa.xml");
-
+		
 		BairroAppService bairroAppService = (BairroAppService)fabrica.getBean ("bairroAppService");
-
+		UsuariosAppService perfilApp = (UsuariosAppService)fabrica.getBean("usuariosAppService");
+		
+		String conta = Console.readLine("\n Digite seu usuário:\n");
+		String senha = Console.readLine("\n Digite sua senha:\n");
+		List<String> perfisList = perfilApp.recuperaPerfis(conta, senha);
+		String[] perfis = new String[perfisList.size()];
+		for(int i = 0; i < perfisList.size(); i++) {
+			perfis[i] = perfisList.get(i);
+		}
+		
+		singletonPerfis.setPerfis(perfis);
 		
 		boolean continua = true;
 		while(continua) {
@@ -46,7 +61,7 @@ public class PrincipalBairro {
 		    {
 		    	int resposta = Console.readInt('\n' + "Digite o número do bairro que você deseja alterar: ");
 		    	try {
-		    		umBairro = bairroAppService.recuperaUmBairro(resposta);
+		    		umBairro = bairroAppService.altera(umBairro);(resposta);
 		    	} catch(Exception e) {
 		    		System.out.println("\n" + e.getMessage());
 		    		break;
@@ -78,7 +93,7 @@ public class PrincipalBairro {
 
 				if (resp.toLowerCase().equals("s")) {
 				    try {
-					bairroAppService.exclui(umBairro.getId());
+					bairroAppService.exclui(umBairro);
 					System.out.println('\n' + "Bairro removido com sucesso!");
 				    } catch (Exception e) {
 					System.out.println('\n' + e.getMessage());

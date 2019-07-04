@@ -10,9 +10,11 @@ import excecao.UsuarioNaoEncontradoException;
 import modelo.Carro;
 import modelo.ModelosCarro;
 import modelo.Usuario;
+import perfis.SingletonPerfis;
 import servico.CarroAppService;
 import servico.ModelosCarroAppService;
 import servico.UsuarioAppService;
+import servico.UsuariosAppService;
 
 public class PrincipalCarro {
 	public static void main(String[] args) {
@@ -28,7 +30,18 @@ public class PrincipalCarro {
 		UsuarioAppService usuarioAppService = (UsuarioAppService)fabrica.getBean ("usuarioAppService");
 		CarroAppService carroAppService = (CarroAppService)fabrica.getBean ("carroAppService");
 		ModelosCarroAppService modeloAppService = (ModelosCarroAppService)fabrica.getBean ("modelosCarroAppService");
-
+		
+		SingletonPerfis singletonPerfis = SingletonPerfis.getSingletonPerfis();
+		UsuariosAppService perfilApp = (UsuariosAppService)fabrica.getBean("usuariosAppService");
+		String conta = Console.readLine("\n Digite seu usuário:\n");
+		String senha = Console.readLine("\n Digite sua senha:\n");
+		List<String> perfisList = perfilApp.recuperaPerfis(conta, senha);
+		String[] perfis = new String[perfisList.size()];
+		for(int i = 0; i < perfisList.size(); i++) {
+			perfis[i] = perfisList.get(i);
+		}
+		
+		singletonPerfis.setPerfis(perfis);
 		
 		boolean continua = true;
 		while(continua) {
@@ -83,7 +96,7 @@ public class PrincipalCarro {
 				if (resp.equals("s")) {
 				    try
 				    /* ==> */ {
-					carroAppService.exclui(umCarro.getId());
+					carroAppService.exclui(umCarro);
 					System.out.println('\n' + "Carro removido com sucesso!");
 				    } catch (Exception e) {
 					System.out.println(e.getMessage());

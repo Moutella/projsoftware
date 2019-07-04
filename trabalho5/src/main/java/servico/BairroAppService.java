@@ -10,12 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import anotacao.Perfil;
+
 @Service
 public class BairroAppService {
 	@Autowired
 	private BairroDAO bairroDAO;
 
     @Transactional
+    @Perfil(nomes={"admin", "user"})
 	public long inclui(Bairro umBairro) {
 		long numero = bairroDAO.inclui(umBairro);
 		return numero;
@@ -23,6 +26,7 @@ public class BairroAppService {
 	}
 
     @Transactional
+    @Perfil(nomes={"admin", "user"})
 	public void altera(Bairro umBairro) throws BairroNaoEncontradoException {
 		try {
 			
@@ -40,6 +44,7 @@ public class BairroAppService {
 	    }
 
     @Transactional
+    @Perfil(nomes={"admin", "user"})
     public void exclui(long numero) throws BairroNaoEncontradoException {
 	try {
 	    
@@ -52,6 +57,7 @@ public class BairroAppService {
 	}
 	
     }
+    @Perfil(nomes={"admin", "user"})
     public Bairro recuperaUmBairro(long numero) throws BairroNaoEncontradoException {
     	try {
     	   	Bairro umBairro = bairroDAO.recuperaUmBairro(numero);
@@ -61,6 +67,7 @@ public class BairroAppService {
     	    throw new BairroNaoEncontradoException("Bairro nao encontrado");
     	}
         }
+    @Perfil(nomes={"admin", "user"})
     public List<Bairro> recuperaBairrosEmoradores() {
     	try {
     	    return bairroDAO.recuperaBairrosEMoradores();

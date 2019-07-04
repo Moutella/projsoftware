@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?> 
-<beans xmlns="http://www.springframework.org/schema/beans" 
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-       xmlns:context="http://www.springframework.org/schema/context" 
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
              http://www.springframework.org/schema/beans/spring-beans.xsd 
              http://www.springframework.org/schema/context 
              http://www.springframework.org/schema/context/spring-context.xsd 
@@ -13,13 +13,40 @@
              http://www.springframework.org/schema/util
              http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean id="usuarioAppService" class="servico.UsuarioAppService" />
-	<bean id="modelosCarroAppService" class="servico.ModelosCarroAppService" />
-	<bean id="bairroAppService" class="servico.BairroAppService" />
-	<bean id="carroAppService" class="servico.CarroAppService" />
+	<bean id="bairroAppService" class="servico.BairroAppService">
+		<property name="bairroDAO" ref = "bairroDAOImpl"/>
+	</bean>
+	<bean id="usuarioAppService" class="servico.UsuarioAppService">
+		<property name="usuarioDAO" ref = "usuarioDAOImpl"/>
+	</bean>
+	<bean id="modelosCarroAppService" class="servico.ModelosCarroAppService">
+		<property name="modelosCarroDAO" ref = "modelosCarroDAOImpl"/>
+	</bean>
+	
+	<bean id="carroAppService" class="servico.CarroAppService">
+		<property name="carroDAO" ref = "carroDAOImpl"/>
+	</bean>
+	<bean id="usuariosAppService" class="servico.UsuariosAppService">
+	</bean>
              
+    
+    <bean id="bairroDAOImpl" class="dao.controle.FabricaDeDao" factory-method="getDao">
+		<constructor-arg value="dao.impl.BairroDAOImpl" />
+    </bean>
+    
+	<bean id="modelosCarroDAOImpl" class="dao.controle.FabricaDeDao" factory-method="getDao">
+		<constructor-arg value="dao.impl.ModelosCarroDAOImpl" />
+    </bean>
+    
+    <bean id="carroDAOImpl" class="dao.controle.FabricaDeDao" factory-method="getDao">
+		<constructor-arg value="dao.impl.CarroDAOImpl" />
+    </bean>
+    
+	<bean id="usuarioDAOImpl" class="dao.controle.FabricaDeDao" factory-method="getDao">
+		<constructor-arg value="dao.impl.UsuarioDAOImpl" />
+    </bean>
+    
     <context:component-scan base-package="dao.impl" />
-
 <!--  
     Acrescentando  o  elemento  abaixo  será  registrado  automaticamente  um bean  do tipo 
     PersistenceAnnotationBeanPostProcessor   que  ficará   responsável   por   injetar   um 
@@ -39,6 +66,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
+
 <!-- 
     Spring  provê  um  fábrica denominada  LocalContainerEntityManagerFactoryBean, para que 
     se possa criar um objeto entity manager factory no container IoC. É preciso especificar 
@@ -50,33 +78,38 @@
     datasource.
 -->
 
-    <bean id="entityManagerFactory"
-          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="exercicio" />
-        <property name="packagesToScan" value="modelo" />
+  
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="exercicio" />
+		<property name="packagesToScan" value="modelo" />
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter">
-			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />			
+			<bean
+				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="databasePlatform"
+					value="org.hibernate.dialect.MySQLDialect" />
 				<property name="showSql" value="true" />
 			</bean>
 		</property>
-    </bean>
+	</bean>
 
-    <bean id="dataSource" 
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/banco?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=America/Sao_Paulo" />
-        <property name="username" value="projsoftware" />
-        <property name="password" value="projsoftware" />
-    </bean>
-<!-- 
-    Exception translation is still enabled by the use of the @Repository annotation on the DAO. 
-    This annotation  enables a Spring  bean postprocessor to  advice all @Repository beans with 
-    all the PersistenceExceptionTranslator  instances  found  in  the  Container  - and provide 
-    exception translation just as before.
- -->
-    <bean id="persistenceExceptionTranslationPostProcessor"
-          class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/banco?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=America/Sao_Paulo" />
+		<property name="username" value="projsoftware" />
+		<property name="password" value="projsoftware" />
+	</bean>
+	<!-- Exception translation is still enabled by the use of the @Repository 
+		annotation on the DAO. This annotation enables a Spring bean postprocessor 
+		to advice all @Repository beans with all the PersistenceExceptionTranslator 
+		instances found in the Container - and provide exception translation just 
+		as before. -->
+	<bean id="persistenceExceptionTranslationPostProcessor"
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
 </beans>
+

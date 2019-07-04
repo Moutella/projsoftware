@@ -2,6 +2,7 @@ package servico;
 
 import java.util.List;
 
+import dao.BairroDAO;
 import dao.UsuarioDAO;
 
 import excecao.ObjetoNaoEncontradoException;
@@ -11,13 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+import anotacao.Perfil;
+
 public class UsuarioAppService {
+	
+	private UsuarioDAO usuarioDAO = null;
 	@Autowired
-	private UsuarioDAO usuarioDAO;
+    public void setBairroDAO(UsuarioDAO usuarioDAO) {
+		this.usuarioDAO = usuarioDAO;
+    }
 	
 
 	@Transactional
+	@Perfil(nomes={"admin", "user"})
 	public long inclui(Usuario umUsuario) {
 		long numero = usuarioDAO.inclui(umUsuario);
 		return numero;
@@ -25,16 +32,17 @@ public class UsuarioAppService {
 	
 
 	@Transactional
+	@Perfil(nomes={"admin", "user"})
 	public void altera(Usuario umUsuario) throws UsuarioNaoEncontradoException{
 		try {
-			
+			usuarioDAO.getPorIdComLock(umUsuario.getId());
 			usuarioDAO.altera(umUsuario);
 			
 		}catch (ObjetoNaoEncontradoException e) {
 		    throw new UsuarioNaoEncontradoException("Usuario nao encontrado");
 		}
 	}
-	
+	@Perfil(nomes={"admin", "user"})
 	public List<Usuario> recuperaUsuarios() {
 		System.out.println("ué");
 		return usuarioDAO.recuperaUsuarios();
@@ -42,22 +50,26 @@ public class UsuarioAppService {
 	    }
 
 	@Transactional
-    public void exclui(long numero) throws UsuarioNaoEncontradoException {
+	@Perfil(nomes={"admin", "user"})
+    public void exclui(Usuario umUsuario) throws UsuarioNaoEncontradoException {
 	try {
-	    usuarioDAO.exclui(numero);
+		umUsuario = usuarioDAO.getPorId(umUsuario.getId());
+	    usuarioDAO.exclui(umUsuario);
 
 	} catch (ObjetoNaoEncontradoException e) {
 	    	throw new UsuarioNaoEncontradoException("Usuario nao encontrado");
 		}
     }
+	@Perfil(nomes={"admin", "user"})
     public Usuario recuperaUmUsuario(long numero) throws UsuarioNaoEncontradoException {
     	try {
-    	   	Usuario umUsuario = usuarioDAO.recuperaUmUsuario(numero);
+    	   	Usuario umUsuario = usuarioDAO.getPorId(numero);
     	    return umUsuario;
     	}   catch (ObjetoNaoEncontradoException e) {
 	    	throw new UsuarioNaoEncontradoException("Usuario nao encontrado");
 		} 
     }
+	@Perfil(nomes={"admin", "user"})
     public Usuario recuperaUmUsuarioECarros(long id) throws UsuarioNaoEncontradoException {
     	try {
     		Usuario umUsuario = usuarioDAO.recuperaUmUsuarioECarros(id);
@@ -67,6 +79,7 @@ public class UsuarioAppService {
 	    	throw new UsuarioNaoEncontradoException("Usuario nao encontrado");
 		}
     }
+	@Perfil(nomes={"admin", "user"})
     public List<Usuario> recuperaUsuariosECarros(){
 	    return usuarioDAO.recuperaUsuariosECarros();
     	

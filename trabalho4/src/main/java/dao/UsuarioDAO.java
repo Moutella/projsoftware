@@ -4,14 +4,18 @@ import java.util.List;
 
 import excecao.ObjetoNaoEncontradoException;
 import modelo.Usuario;
+import anotacao.RecuperaConjunto;
+import anotacao.RecuperaLista;
+import anotacao.RecuperaObjeto;
+import anotacao.RecuperaUltimoOuPrimeiro;
 
-public interface UsuarioDAO {
-	long inclui(Usuario umUsuario);
-	void exclui(long id) throws ObjetoNaoEncontradoException;
-	void altera(Usuario umUsuario) throws ObjetoNaoEncontradoException;
-	
-	Usuario recuperaUmUsuario(long id) throws ObjetoNaoEncontradoException;
+public interface UsuarioDAO extends DaoGenerico<Usuario, Long> {
+	@RecuperaLista
 	List<Usuario> recuperaUsuarios();
+	@RecuperaObjeto
+	Usuario recuperaUmUsuario(long id) throws ObjetoNaoEncontradoException;
+	@RecuperaObjeto
 	Usuario recuperaUmUsuarioECarros(long id) throws ObjetoNaoEncontradoException;
+	@RecuperaLista
 	List<Usuario> recuperaUsuariosECarros();
 }
