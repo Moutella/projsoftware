@@ -20,7 +20,7 @@ import javax.persistence.Transient;
 
 @NamedQueries({
 	@NamedQuery(name = "Bairro.recuperaBairros", query = "select b from Bairro b order by b.id"),
-	@NamedQuery(name = "Bairro.recuperaUmBairroEMoradores", query = "select b from Bairro b left outer join fetch b.usuarios order by b.id asc"),
+	@NamedQuery(name = "Bairro.recuperaUmBairroEMoradores", query = "select b from Bairro b left outer join fetch b.usuarios where b.id = ?1"),
 	@NamedQuery(name = "Bairro.recuperaBairrosEMoradores", query = "select distinct b from Bairro b left outer join fetch b.usuarios order by b.id asc")})
 	
 	

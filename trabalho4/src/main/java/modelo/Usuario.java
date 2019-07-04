@@ -11,14 +11,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
 import util.Util;
+
+@NamedQueries({
+	@NamedQuery(name = "Usuario.recuperaUsuarios", query = "select u from Usuario u order by u.id"),
+	@NamedQuery(name = "Usuario.recuperaUmUsuarioECarros", query = "select u from Usuario u left outer join fetch u.carros where u.id = ?1"),
+	@NamedQuery(name = "Usuario.recuperaUsuariosECarros", query = "select distinct u from Usuario u left outer join fetch u.carros order by u.id")
+	})
+//@NamedQuery(name = "Usuario.recuperaUmUsuarioECarros", query = "select u from Usuario u left outer join fetch u.usuarios order by b.id asc"),
+//@NamedQuery(name = "Bairro.recuperaBairrosEMoradores", query = "select distinct b from Bairro b left outer join fetch b.usuarios order by b.id asc")
+
 @Entity
 @Table(name = "USUARIO")
 

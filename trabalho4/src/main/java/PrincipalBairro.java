@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import corejava.Console;
+import excecao.BairroNaoEncontradoException;
 import modelo.Bairro;
 import modelo.Usuario;
 import perfis.SingletonPerfis;
@@ -12,20 +13,22 @@ import servico.UsuariosAppService;
 public class PrincipalBairro {
 	public static void main(String[] args) {
 		String nome;
-		
 		Bairro umBairro;
 		
 
 		
 		@SuppressWarnings("resource")
-		SingletonPerfis singletonPerfis = SingletonPerfis.getSingletonPerfis();
-
-		@SuppressWarnings("resource")
 		ApplicationContext fabrica = new ClassPathXmlApplicationContext("beans-jpa.xml");
+		
+		
 		
 		BairroAppService bairroAppService = (BairroAppService)fabrica.getBean ("bairroAppService");
 		UsuariosAppService perfilApp = (UsuariosAppService)fabrica.getBean("usuariosAppService");
+
 		
+		
+		SingletonPerfis singletonPerfis = SingletonPerfis.getSingletonPerfis();
+
 		String conta = Console.readLine("\n Digite seu usuário:\n");
 		String senha = Console.readLine("\n Digite sua senha:\n");
 		List<String> perfisList = perfilApp.recuperaPerfis(conta, senha);
@@ -42,8 +45,10 @@ public class PrincipalBairro {
 		    System.out.println('\n' + "1. Cadastrar um bairro");
 		    System.out.println("2. Alterar um bairro");
 		    System.out.println("3. Remover um bairro");
-		    System.out.println("4. Listar todos os bairros e seus moradores");
-		    int opcao = Console.readInt('\n' + "Digite um número entre 1 e 4:");
+		    System.out.println("4. Listar Bairros");
+		    System.out.println("5. Listar um bairro e seus moradores");
+		    System.out.println("6. Listar todos os bairros e seus moradores");
+		    int opcao = Console.readInt('\n' + "Digite um número entre 1 e 6:");
 
 		    switch (opcao) {
 		    case 1:{
@@ -59,9 +64,9 @@ public class PrincipalBairro {
 		    }
 		    case 2:
 		    {
-		    	int resposta = Console.readInt('\n' + "Digite o número do bairro que você deseja alterar: ");
+		    	int resposta = Console.readInt('\n' + "Digite o númer(ID) do bairro que você deseja alterar: ");
 		    	try {
-		    		umBairro = bairroAppService.altera(umBairro);(resposta);
+		    		umBairro = bairroAppService.recuperaUmBairro(resposta);
 		    	} catch(Exception e) {
 		    		System.out.println("\n" + e.getMessage());
 		    		break;
@@ -105,6 +110,38 @@ public class PrincipalBairro {
 				break;
 		    }
 		    case 4:
+		    {
+		    	List<Bairro> bairros = bairroAppService.recuperaBairros();
+		    	if(bairros.size() != 0) {
+		    		System.out.println("");
+		    		for(Bairro bairro : bairros) {
+		    			System.out.println("ID: " + bairro.getId());
+		    			System.out.println("Nome: " + bairro.getNome());
+		    		}
+		    	}
+		    	break;
+		    }
+		    case 5:{
+		    	int resposta = Console.readInt('\n' + "Digite o número do bairro que você deseja ver: ");
+		    	
+				try {
+					umBairro = bairroAppService.recuperaUmBairroEMoradores(resposta);
+				} catch (BairroNaoEncontradoException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					break;
+				}
+		    	System.out.println("ID: " + umBairro.getId());
+    			System.out.println("Nome: " + umBairro.getNome());
+    			List<Usuario> usuarios = umBairro.getUsuarios();
+    			for(Usuario usuario : usuarios) {
+    				System.out.println("Nome: "+ usuario.getNome());
+    				System.out.println("MAT: "+ usuario.getMatricula());
+    				System.out.println("DATA CADASTRO: " + usuario.getDataCriacaoMasc());
+    			}
+    			break;
+		    }
+		    case 6:
 		    {
 		    	List<Bairro> bairros = bairroAppService.recuperaBairrosEmoradores();
 		    	if(bairros.size() != 0) {

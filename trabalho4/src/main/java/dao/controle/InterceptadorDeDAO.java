@@ -20,7 +20,7 @@ public class InterceptadorDeDAO implements MethodInterceptor {
 	
 	// 
 	JPADaoGenerico<?, ?> daoGenerico = (JPADaoGenerico<?, ?>) objeto;
-
+	System.out.println("METODO INTERCEPTADO: " + metodo.toGenericString() +" " + metodo.toString());
 	if (metodo.isAnnotationPresent(RecuperaLista.class)) {
 	    return daoGenerico.buscaLista(metodo, args);
 	}
@@ -33,8 +33,11 @@ public class InterceptadorDeDAO implements MethodInterceptor {
 	else if (metodo.isAnnotationPresent(RecuperaObjeto.class)) {
 	    return daoGenerico.busca(metodo, args);
 	}
+	else if(metodo.getName().contains("hashCode")) {
+		return null;
+	}
 	else {	
-	    throw new InfraestruturaException("Um metodo nao final deixou de ser anotado: ");
+	    throw new InfraestruturaException("Um metodo nao final deixou de ser anotado: " + metodo.toString() + metodo.getName());
 	}
     }
 }

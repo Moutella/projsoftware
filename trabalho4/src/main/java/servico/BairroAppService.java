@@ -8,7 +8,6 @@ import excecao.ObjetoNaoEncontradoException;
 import modelo.Bairro;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import anotacao.Perfil;
@@ -16,6 +15,7 @@ import anotacao.Perfil;
 public class BairroAppService{
 
 	private BairroDAO bairroDAO = null;
+	
 	@Autowired
     public void setBairroDAO(BairroDAO bairroDAO) {
 		this.bairroDAO = bairroDAO;
@@ -24,8 +24,8 @@ public class BairroAppService{
    
     @Perfil(nomes={"admin", "user"})
 	public long inclui(Bairro umBairro) {
-		long numero = bairroDAO.inclui(umBairro);
-		return numero;
+		return bairroDAO.inclui(umBairro).getId();
+		
 	}
 
     @Transactional
@@ -53,6 +53,18 @@ public class BairroAppService{
 	
     }
     
+    @Transactional
+    @Perfil(nomes={"admin", "user"})
+    public Bairro recuperaUmBairro(long numero) throws BairroNaoEncontradoException {
+    	try {
+    	    return bairroDAO.getPorId(numero);
+    	}
+    	catch (ObjetoNaoEncontradoException e) {
+    	    throw new BairroNaoEncontradoException("Bairro não encontrado");
+    	}
+    }
+    @Transactional
+    @Perfil(nomes={"admin", "user"})
 	public List<Bairro> recuperaBairros() {
 		
 		    return bairroDAO.recuperaBairros();

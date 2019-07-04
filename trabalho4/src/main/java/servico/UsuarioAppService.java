@@ -18,7 +18,7 @@ public class UsuarioAppService {
 	
 	private UsuarioDAO usuarioDAO = null;
 	@Autowired
-    public void setBairroDAO(UsuarioDAO usuarioDAO) {
+    public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
 		this.usuarioDAO = usuarioDAO;
     }
 	
@@ -26,8 +26,8 @@ public class UsuarioAppService {
 	@Transactional
 	@Perfil(nomes={"admin", "user"})
 	public long inclui(Usuario umUsuario) {
-		long numero = usuarioDAO.inclui(umUsuario);
-		return numero;
+		return usuarioDAO.inclui(umUsuario).getId();
+		
 	}
 	
 

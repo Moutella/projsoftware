@@ -25,8 +25,8 @@ public class CarroAppService {
 	public long inclui(Carro umCarro) {
 
 			
-			long numero = carroDAO.inclui(umCarro);
-			return numero;
+			return carroDAO.inclui(umCarro).getId();
+			
 		
 	}
 	@Transactional

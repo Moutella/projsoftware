@@ -16,7 +16,6 @@ import dao.DaoGenerico;
 import excecao.InfraestruturaException;
 import excecao.ObjetoNaoEncontradoException;
 
-
 public class JPADaoGenerico<T, PK extends Serializable> implements DaoGenerico<T, PK> {
     private Class<T> tipo;
 
@@ -27,7 +26,7 @@ public class JPADaoGenerico<T, PK extends Serializable> implements DaoGenerico<T
 	this.tipo = tipo;
     }
 
-    public final long inclui(T o) {
+    public final T inclui(T o) {
 	try {
 	    em.persist(o);
 	}
@@ -35,7 +34,7 @@ public class JPADaoGenerico<T, PK extends Serializable> implements DaoGenerico<T
 	    throw new InfraestruturaException(e);
 	}
 
-	return (long) o;
+	return o;
     }
 
     public final void altera(T o) {

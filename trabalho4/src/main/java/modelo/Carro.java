@@ -9,8 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+@NamedQueries({
+	@NamedQuery(name = "Carro.recuperaCarros", query = "select c from Carro c order by c.id"),
+	@NamedQuery(name = "Carro.recuperaUmCarroEUsuarioEModelo", query = "select c from Carro c left outer join fetch c.usuario left outer join fetch c.modelo where c.id = ?1"),
+	@NamedQuery(name = "Carro.recuperaCarrosUsuariosModelos", query = "select distinct c from Carro c left outer join fetch c.usuario left outer join fetch c.modelo")})
+	
 @Entity
 @Table(name = "CARRO")
 public class Carro {

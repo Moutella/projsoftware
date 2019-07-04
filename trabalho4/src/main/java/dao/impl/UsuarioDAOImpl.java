@@ -14,6 +14,9 @@ import dao.UsuarioDAO;
 import excecao.ObjetoNaoEncontradoException;
 
 import modelo.Usuario;
+
+
+
 @Repository
 public abstract class UsuarioDAOImpl extends JPADaoGenerico<Usuario, Long> implements UsuarioDAO{
 	public UsuarioDAOImpl() {

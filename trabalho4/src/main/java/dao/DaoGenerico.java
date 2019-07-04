@@ -9,7 +9,7 @@ import excecao.ObjetoNaoEncontradoException;
 
 public interface DaoGenerico<T, PK extends Serializable> {
     @Transactional
-    long inclui(T obj);
+    T inclui(T obj);
 
     @Transactional
     void altera(T obj);

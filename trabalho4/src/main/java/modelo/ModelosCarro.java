@@ -10,6 +10,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
+
+@NamedQueries({
+	@NamedQuery(name = "ModelosCarro.recuperaModelosCarros", query = "SELECT u FROM ModelosCarro u ORDER BY u.id"),
+	@NamedQuery(name = "ModelosCarro.recuperaModelosCarrosECarros", query = "select distinct m from ModelosCarro m left outer join fetch m.carros order by m.id")
+})
 @Entity
 @Table(name = "MODELOSCARRO")
 public class ModelosCarro {

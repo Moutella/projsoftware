@@ -14,6 +14,9 @@ public interface BairroDAO extends DaoGenerico<Bairro, Long>{
 	@RecuperaObjeto
     Bairro recuperaUmBairroEMoradores(long numero) throws ObjetoNaoEncontradoException;
 	
+	@RecuperaObjeto
+	Bairro recuperaUmBairro(long numero) throws ObjetoNaoEncontradoException;
+	
 	@RecuperaLista
     List<Bairro> recuperaBairros();
 	

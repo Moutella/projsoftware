@@ -7,7 +7,7 @@ public class FabricaDeDao {
     @SuppressWarnings("unchecked")
     public static <T> T getDao(String classeDoDaoComoString) throws Exception {
 	Class<?> classeDoDao = Class.forName(classeDoDaoComoString);
-
+	System.out.println(classeDoDaoComoString);
 	return (T) Enhancer.create(classeDoDao, new InterceptadorDeDAO());
 
     }

@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import corejava.Console;
+import excecao.ModeloCarroNaoEncontradoException;
 import modelo.ModelosCarro;
 import perfis.SingletonPerfis;
 import modelo.Carro;
@@ -39,7 +40,8 @@ public class PrincipalModelosCarro {
 		    System.out.println('\n' + "1. Cadastrar um modelo");
 		    System.out.println("2. Alterar um modelo");
 		    System.out.println("3. Remover um modelo");
-		    System.out.println("4. Listar todos os modelos e seus carros");
+		    System.out.println("4. Listar todos os modelos");
+		    System.out.println("5. Listar todos os modelos e seus carros");
 		    int opcao = Console.readInt('\n' + "Digite um número entre 1 e 4:");
 
 		    switch (opcao) {
@@ -102,6 +104,25 @@ public class PrincipalModelosCarro {
 				break;
 		    }
 		    case 4:
+		    {
+		    	List<ModelosCarro> modelosCarros;
+		    	try {
+					modelosCarros = modelosCarroAppService.recuperaModelosCarros();
+				} catch (ModeloCarroNaoEncontradoException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					break;
+				}
+		    	if(modelosCarros.size() != 0) {
+		    		System.out.println("");
+		    		for(ModelosCarro modelosCarro : modelosCarros) {
+		    			System.out.println("ID: " + modelosCarro.getId());
+		    			System.out.println("Nome: " + modelosCarro.getNome());
+		    		}
+		    	}
+		    	break;
+		    }
+		    case 5:
 		    {
 		    	List<ModelosCarro> modelosCarros = modelosCarroAppService.recuperaModelosCarrosECarros();
 		    	if(modelosCarros.size() != 0) {

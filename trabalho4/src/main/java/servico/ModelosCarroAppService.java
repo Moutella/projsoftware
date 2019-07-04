@@ -19,7 +19,7 @@ public class ModelosCarroAppService {
 	private ModelosCarroDAO modelosCarroDAO = null;
 
 	@Autowired
-    public void setBairroDAO(ModelosCarroDAO modelosCarroDAO) {
+    public void setModelosCarroDAO(ModelosCarroDAO modelosCarroDAO) {
 		this.modelosCarroDAO = modelosCarroDAO;
     }
 	@Transactional
@@ -27,9 +27,9 @@ public class ModelosCarroAppService {
 	public long inclui(ModelosCarro umModelosCarro) {
 		
 
-			long numero = modelosCarroDAO.inclui(umModelosCarro);
+			return modelosCarroDAO.inclui(umModelosCarro).getId();
 
-			return numero;
+			
 		
 	}
 

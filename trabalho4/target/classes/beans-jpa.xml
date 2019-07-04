@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?> 
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:context="http://www.springframework.org/schema/context" 
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
              http://www.springframework.org/schema/beans/spring-beans.xsd 
              http://www.springframework.org/schema/context 
              http://www.springframework.org/schema/context/spring-context.xsd 
@@ -16,9 +16,11 @@
 	<bean id="bairroAppService" class="servico.BairroAppService">
 		<property name="bairroDAO" ref = "bairroDAOImpl"/>
 	</bean>
+	
 	<bean id="usuarioAppService" class="servico.UsuarioAppService">
 		<property name="usuarioDAO" ref = "usuarioDAOImpl"/>
 	</bean>
+	
 	<bean id="modelosCarroAppService" class="servico.ModelosCarroAppService">
 		<property name="modelosCarroDAO" ref = "modelosCarroDAOImpl"/>
 	</bean>
@@ -55,10 +57,6 @@
 -->
     <context:annotation-config />
 
-<!--  
-    Aqui  é  preciso  declarar  uma  JpaTransactionManager  e  habilitar o gerenciamento de 
-    transação de forma declarativa com os elementos abaixo.
- -->
     <tx:annotation-driven />
     
     <bean id="transactionManager"
@@ -67,18 +65,6 @@
     </bean>
 
 
-<!-- 
-    Spring  provê  um  fábrica denominada  LocalContainerEntityManagerFactoryBean, para que 
-    se possa criar um objeto entity manager factory no container IoC. É preciso especificar 
-    o  nome da  unidade de  persistência, o datasource que será  utilizado e o dialeto  SQL 
-    a ser utilizado.
-
-    Os dois elementos property abaixo foram  adicionados ao  elemento  entityManagerFactory   
-    para  podermos  retirar  do  persistence.xml  as  configurações   de  configuração   do 
-    datasource.
--->
-
-  
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="exercicio" />
@@ -112,4 +98,3 @@
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
 </beans>
-
